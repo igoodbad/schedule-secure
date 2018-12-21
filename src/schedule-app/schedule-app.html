@@ -1,0 +1,147 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/contact-list/contact-list.html">
+<link rel="import" href="../../bower_components/login-signin/login-signin.html">
+<link rel="import" href="./language-component.html">
+
+<dom-module id="schedule-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .container h2 {
+        text-align: center;
+      }
+
+      .container login-signin {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+    <div class="container">
+      <h2>[[currentLocal.titleApp]]</h2>
+      <dom-if if="[[!logedIn]]">
+        <template>
+          <login-signin id="login-signin-component" on-register-complete="_getFormRegister" on-login-complete="_getFormLogin"></login-signin>
+        </template>
+      </dom-if>
+      <dom-if if="[[logedIn]]">
+        <template>
+          <contact-list id="componentList" contacts="{{usersList}}" on-contact-detail="_showInfoUser"></contact-list>
+          <button on-click="_logoff">Salir</button>
+        </template>
+      </dom-if>
+      <language-component on-change-location="changeLanguage"></language-component>
+      
+    </div>
+    
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ScheduleApp extends Polymer.Element {
+      static get is() { return 'schedule-app'; }
+      static get properties() {
+        return {
+          titleApp: {
+            type: String,
+            value: 'Schedule Secure 0.-'
+          },
+          logedIn: {
+            type: Boolean,
+            value: false
+          },
+          userLogin: {
+            type: Object,
+            value: () => { }
+          },
+          usersList: {
+            type: Array,
+            value: function () { return [] }
+          },
+          languageSelected: {
+            type: String,
+            value: '',
+            observer: '_setLocation'
+          },
+          locales: {
+            type: Object,
+            value: {
+              es: {
+                titleApp: 'Agenda segura 0.-'
+              },
+              en: {
+                titleApp: 'Schedule Secure 0.-'
+              }
+            }
+          },
+          currentLocal: {
+            type: Object,
+            value: {}
+          }
+        };
+      }
+      static get observers() {
+        return [
+          '_refreshList(usersList.length)'
+        ]
+      }
+
+      _setLocation() {
+        this.set('currentLocal', this.locales[this.languageSelected]);
+      }
+
+      _getFormRegister(event) {
+        let existUser = this.usersList.filter(user => user.user === event.detail.username && user.password === event.detail.password);
+        if (existUser.length === 1) {
+          alert("El usuario ya se encuenra registrado");
+        } else {
+          this.push("usersList", {
+            firstName: event.detail.firstName,
+            lastName: event.detail.lastName,
+            age: event.detail.age,
+            image: 'https://image.freepik.com/free-icon/user-image-with-black-background_318-34564.jpg',
+            status: 'offline',
+            user: event.detail.username,
+            password: event.detail.password
+          });
+          this.notifyPath('usersList')
+        }
+      }
+
+      _getFormLogin(event) {
+        let formLogin = event.detail;
+        let findUser = this.usersList.filter(user => user.user === formLogin.username && user.password === formLogin.password);
+        if (findUser.length === 1) {
+          this.set('logedIn', true);
+        } else {
+          alert('Credenciales inválidas');
+        }
+
+      }
+
+      _logoff() {
+        this.set('logedIn', false);
+      }
+
+      _showInfoUser(event) {
+        alert(event.detail);
+
+      }
+
+      _refreshList() {
+        //alert("cambio");
+      }
+
+      changeLanguage(event) {
+        this.set('languageSelected', event.detail);
+      }
+    }
+
+    window.customElements.define(ScheduleApp.is, ScheduleApp);
+  </script>
+</dom-module>

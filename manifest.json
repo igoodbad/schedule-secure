@@ -1,0 +1,6 @@
+{
+  "name": "schedule-secure",
+  "short_name": "schedule-secure",
+  "start_url": "/",
+  "display": "standalone"
+}
