@@ -1,0 +1,36 @@
+{
+    "titleApp": "安全なアジェンダ",
+    "btnLogout": "セッションを閉じる",
+    "labels": {
+        "titleLogin": "セッション開始 (ñ.ñ)/",
+        "titleRegister": "登録するデータを完成させる L(*u*)/",
+        "questionRegister": "あなたはまだ登録されていません?",
+        "haveAccount": "あなたはすでにアカウントを持っています?"
+    },
+    "formLogin": {
+        "inputUser": "ユーザー名",
+        "inputPassword": "パスワード",
+        "btnLogin": "入ります",
+        "btnRegister": "登録はこちら!!"
+    },
+    "formRegister": {
+        "btnSignup": "登録はこちら",
+        "btnLogin": "こちらからログイン!!",
+        "formInputs": {
+            "firstName": "お名前",
+            "lastName": "姓",
+            "age": "年齢",
+            "username": "ユーザー",
+            "password": {
+                "label": "パスワード",
+                "sub": "(最小5文字)"
+            },
+            "confirmPasword": "パスワードを再入力してください"
+        }
+    },
+    "contactList": {
+        "txtNoContacts": "連絡先なし",
+        "txtContacts": "登録済み連絡先",
+        "btnInfo": "情報"
+    }
+}

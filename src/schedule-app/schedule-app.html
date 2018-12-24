@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/contact-list/contact-list.html">
 <link rel="import" href="../../bower_components/login-signin/login-signin.html">
-<link rel="import" href="./language-component.html">
+<link rel="import" href="../../bower_components/local-traslate/local-traslate.html">
 
 <dom-module id="schedule-app">
   <template>
@@ -18,24 +18,38 @@
         display: flex;
         justify-content: space-around;
       }
+
+      .title-app{
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .navbar{
+        background-color: rgba(187, 255, 252, 0.7);
+        padding: 2px 20px;
+        margin: 3px;
+        color: rgb(50,50,50)
+      }
+
+      #componentList{
+        background-color: rgba(213,213,213,0.65);
+        padding: 10px 10px;
+      }
     </style>
-    <div class="container">
-      <h2>[[currentLocal.titleApp]]</h2>
-      <dom-if if="[[!logedIn]]">
-        <template>
-          <login-signin id="login-signin-component" on-register-complete="_getFormRegister" on-login-complete="_getFormLogin"></login-signin>
-        </template>
-      </dom-if>
-      <dom-if if="[[logedIn]]">
-        <template>
-          <contact-list id="componentList" contacts="{{usersList}}" on-contact-detail="_showInfoUser"></contact-list>
-          <button on-click="_logoff">Salir</button>
-        </template>
-      </dom-if>
-      <language-component on-change-location="changeLanguage"></language-component>
-      
+    <div class="navbar">
+        <local-traslate source="src/locales" lang="es" lang-list="[[langList]]" on-selected-lang="_setLanguage"></local-traslate>
+        <h2 class="title-app">[[currentLanguage.data.titleApp]]</h2>
     </div>
-    
+    <div class="container">
+      <div hidden="[[logedIn]]">
+        <login-signin id="logiSigninComponent" on-register-complete="_getFormRegister" on-login-complete="_getFormLogin"></login-signin>
+      </div>
+      <div hidden="[[!logedIn]]">
+        <contact-list id="componentList" contacts="[[contacts]]" on-contact-detail="_showInfoUser">
+            <button on-click="_logoff">[[currentLanguage.data.btnLogout]]</button>
+        </contact-list>
+      </div>
+    </div>
   </template>
 
   <script>
@@ -47,10 +61,6 @@
       static get is() { return 'schedule-app'; }
       static get properties() {
         return {
-          titleApp: {
-            type: String,
-            value: 'Schedule Secure 0.-'
-          },
           logedIn: {
             type: Boolean,
             value: false
@@ -59,48 +69,49 @@
             type: Object,
             value: () => { }
           },
-          usersList: {
+          contacts: {
             type: Array,
-            value: function () { return [] }
+            value: []
           },
           languageSelected: {
             type: String,
-            value: '',
-            observer: '_setLocation'
+            value: 'es'
+          },
+          langList: {
+            type: Array,
+            value: [
+              { lang: "es", langDescription: "Español" },
+              { lang: "en", langDescription: "English" },
+              { lang: "jp", langDescription: "日本" }
+            ]
           },
           locales: {
             type: Object,
-            value: {
-              es: {
-                titleApp: 'Agenda segura 0.-'
-              },
-              en: {
-                titleApp: 'Schedule Secure 0.-'
-              }
-            }
+            value: () => { }
           },
-          currentLocal: {
+          currentLanguage: {
             type: Object,
-            value: {}
+            value: () => { }
           }
         };
       }
-      static get observers() {
-        return [
-          '_refreshList(usersList.length)'
-        ]
-      }
 
-      _setLocation() {
-        this.set('currentLocal', this.locales[this.languageSelected]);
+      _setLanguage(event) {
+        this.set('currentLanguage', event.detail[0]);
+        let cLoginSign = this.$.logiSigninComponent;
+        cLoginSign.labels = this.currentLanguage.data.labels;
+        cLoginSign.formLogin = this.currentLanguage.data.formLogin;
+        cLoginSign.formRegister = this.currentLanguage.data.formRegister;
+        let cContactList = this.$.componentList;
+        cContactList.labels = this.currentLanguage.data.contactList;
       }
 
       _getFormRegister(event) {
-        let existUser = this.usersList.filter(user => user.user === event.detail.username && user.password === event.detail.password);
+        let existUser = this.contacts.filter(user => user.user === event.detail.username && user.password === event.detail.password);
         if (existUser.length === 1) {
           alert("El usuario ya se encuenra registrado");
         } else {
-          this.push("usersList", {
+          this.set('contacts', [...this.contacts, {
             firstName: event.detail.firstName,
             lastName: event.detail.lastName,
             age: event.detail.age,
@@ -108,14 +119,13 @@
             status: 'offline',
             user: event.detail.username,
             password: event.detail.password
-          });
-          this.notifyPath('usersList')
+          }]);
         }
       }
 
       _getFormLogin(event) {
         let formLogin = event.detail;
-        let findUser = this.usersList.filter(user => user.user === formLogin.username && user.password === formLogin.password);
+        let findUser = this.contacts.filter(user => user.user === formLogin.username && user.password === formLogin.password);
         if (findUser.length === 1) {
           this.set('logedIn', true);
         } else {
@@ -129,17 +139,10 @@
       }
 
       _showInfoUser(event) {
-        alert(event.detail);
+        alert(JSON.stringify(event.detail));
 
       }
 
-      _refreshList() {
-        //alert("cambio");
-      }
-
-      changeLanguage(event) {
-        this.set('languageSelected', event.detail);
-      }
     }
 
     window.customElements.define(ScheduleApp.is, ScheduleApp);

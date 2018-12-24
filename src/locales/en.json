@@ -1,0 +1,36 @@
+{
+    "titleApp": "Shedule Secure",
+    "btnLogout": "Logout",
+    "labels": {
+        "titleLogin": "Login (ñ.ñ)/",
+        "titleRegister": "Complete the data to register L(*u*)/",
+        "questionRegister": "You are no yet registered?",
+        "haveAccount": "You have an account?"
+    },
+    "formLogin": {
+        "inputUser": "User name",
+        "inputPassword": "Password",
+        "btnLogin": "Sign in",
+        "btnRegister": "Register HERE!!"
+    },
+    "formRegister": {
+        "btnSignup": "Sign Up",
+        "btnLogin": "Login HERE!!",
+        "formInputs": {
+            "firstName": "First name",
+            "lastName": "Last name",
+            "age": "Age",
+            "username": "User name",
+            "password": {
+                "label": "Password",
+                "sub": "(minimun 5 characters"
+            },
+            "confirmPasword": "Enter again passwordm"
+        }
+    },
+    "contactList": {
+        "txtNoContacts": "No contacts",
+        "txtContacts": "Registered contacts",
+        "btnInfo": "Information"
+    }
+}

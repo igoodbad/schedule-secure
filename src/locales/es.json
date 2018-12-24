@@ -1,0 +1,36 @@
+{
+    "titleApp": "Agenda Segura",
+    "btnLogout": "Salir",
+    "labels": {
+        "titleLogin": "Inicio de sesión (ñ.ñ)/",
+        "titleRegister": "Completa los datos para registrarte L(*u*)/",
+        "questionRegister": "Aún no estás registrado?",
+        "haveAccount": "Ya tienes una cuenta?"
+    },
+    "formLogin": {
+        "inputUser": "Nombre de usuario",
+        "inputPassword": "Contraseña",
+        "btnLogin": "Entrar",
+        "btnRegister": "Registrate AQUÍ!!"
+    },
+    "formRegister": {
+        "btnSignup": "Registrate",
+        "btnLogin": "Inicia sesión AQUI!!",
+        "formInputs": {
+            "firstName": "Nombre(s)",
+            "lastName": "Apellidos",
+            "age": "Edad",
+            "username": "Usuario",
+            "password": {
+                "label": "Contraseña",
+                "sub": "(mínimo 5 caracteres)"
+            },
+            "confirmPasword": "Vuelve a ingresar tu contraseña"
+        }
+    },
+    "contactList": {
+        "txtNoContacts": "Sin contactos",
+        "txtContacts": "Contactos registrados",
+        "btnInfo": "Información"
+    }
+}
