@@ -4,7 +4,7 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "contact-list": "igoodbad/contact-list",
-    "login-signin": "igoodbad/login-signin",
+    "login-signup": "igoodbad/login-signup",
     "local-traslate": "igoodbad/local-traslate"
   },
   "devDependencies": {

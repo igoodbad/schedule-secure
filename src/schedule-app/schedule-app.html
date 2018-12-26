@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/contact-list/contact-list.html">
-<link rel="import" href="../../bower_components/login-signin/login-signin.html">
+<link rel="import" href="../../bower_components/login-signup/login-signup.html">
 <link rel="import" href="../../bower_components/local-traslate/local-traslate.html">
 
 <dom-module id="schedule-app">
@@ -14,7 +14,7 @@
         text-align: center;
       }
 
-      .container login-signin {
+      .container login-signup {
         display: flex;
         justify-content: space-around;
       }
@@ -42,7 +42,7 @@
     </div>
     <div class="container">
       <div hidden="[[logedIn]]">
-        <login-signin id="logiSigninComponent" on-register-complete="_getFormRegister" on-login-complete="_getFormLogin"></login-signin>
+        <login-signup id="logiSigninComponent" on-register-complete="_getFormRegister" on-login-complete="_getFormLogin"></login-signup>
       </div>
       <div hidden="[[!logedIn]]">
         <contact-list id="componentList" contacts="[[contacts]]" on-contact-detail="_showInfoUser">
@@ -109,7 +109,7 @@
       _getFormRegister(event) {
         let existUser = this.contacts.filter(user => user.user === event.detail.username && user.password === event.detail.password);
         if (existUser.length === 1) {
-          alert("El usuario ya se encuenra registrado");
+          alert("El usuario ya se encuentra registrado");
         } else {
           this.set('contacts', [...this.contacts, {
             firstName: event.detail.firstName,
